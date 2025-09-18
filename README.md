@@ -94,7 +94,8 @@ make -j 8
 make install
 ```
 
-Thêm code vô
+~/gcc_all/gcc-10.3.0/libsanitizer/asan/asan_linux.cpp
+
 ```Bash
 #ifndef PATH_MAX
 #define PATH_MAX 4096
