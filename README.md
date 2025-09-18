@@ -168,9 +168,9 @@ cd ~/Qt6Cross
 mkdir rpi-sysroot rpi-sysroot/usr 
 
 cd ~/Qt6Cross
-rsync -avz --rsync-path="sudo rsync" pi@192.168.1.9:/usr/include rpi-sysroot/usr
-rsync -avz --rsync-path="sudo rsync" pi@192.168.1.9:/lib rpi-sysroot
-rsync -avz --rsync-path="sudo rsync" pi@192.168.1.9:/usr/lib rpi-sysroot/usr
+rsync -avz --rsync-path="sudo rsync" piuser@192.168.1.9:/usr/include rpi-sysroot/usr
+rsync -avz --rsync-path="sudo rsync" piuser@192.168.1.9:/lib rpi-sysroot
+rsync -avz --rsync-path="sudo rsync" piuser@192.168.1.9:/usr/lib rpi-sysroot/usr
 
 wget https://raw.githubusercontent.com/riscv/riscv-poky/master/scripts/sysroot-relativelinks.py
 chmod +x sysroot-relativelinks.py 
