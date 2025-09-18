@@ -94,12 +94,15 @@ make -j 8
 make install
 ```
 
-~/gcc_all/gcc-10.3.0/libsanitizer/asan/asan_linux.cpp
 
-```Bash
+Thêm 3 đoạn khai báo sau vào ~/Qt6Cross/gcc_all/gcc-10.3.0/libsanitizer/asan/asan_linux.cpp
+
 #ifndef PATH_MAX
 #define PATH_MAX 4096
 #endif
+
+```Bash
+sed -i '1i#ifndef PATH_MAX\n#define PATH_MAX 4096\n#endif' ~/Qt6Cross/gcc_all/gcc-10.3.0/libsanitizer/asan/asan_linux.cpp
 ```
 
 gì đó
