@@ -141,6 +141,12 @@ make -j8
 make install
 ```
 
+```Bash
+cd ~/Qt6Cross/gcc_all/build-gcc
+make -j8
+make install
+```
+
 # Build lại Qt6
 
 ```Bash
