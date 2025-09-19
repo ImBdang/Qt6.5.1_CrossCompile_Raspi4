@@ -1,5 +1,9 @@
 # Qt6.5.1_CrossCompile_Raspi4
-des here
+Bài viết này hướng dẫn thiết lập môi trường biên dịch chéo cho Raspi 4, Pi OS 64bit
+
+Phiên bản PiOS mình dùng là 2023-05-03-raspios-bullseye-arm64.img
+Phiên bản Ubuntu mình dùng là 22.04.5 LTS
+
 
 # Chuẩn bị cho RPI
 Cật nhập repo mới nhất
