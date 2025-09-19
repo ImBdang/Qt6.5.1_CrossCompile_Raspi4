@@ -54,7 +54,25 @@ cd CMake
 ./bootstrap && make -j8&& sudo make install
 ```
 
-# Tải tool biên dịch chéo 
+# Tải tool biên dịch chéo (sử dụng GCC)
+
+wget https://ftpmirror.gnu.org/binutils/binutils-2.35.2.tar.bz2
+
+Tải binutils: bao gồm các tool như as (assembler), ld (linker), ar (archive tool)… Đây là các công cụ cơ bản cần cho quá trình biên dịch.
+
+wget https://ftpmirror.gnu.org/glibc/glibc-2.31.tar.bz2
+
+Tải glibc: thư viện chuẩn C. Đây là thư viện runtime mà mọi chương trình C/C++ cần để chạy trên target.
+
+wget https://ftpmirror.gnu.org/gcc/gcc-10.3.0/gcc-10.3.0.tar.gz
+
+Tải GCC: bộ biên dịch chính, sẽ dùng để biên dịch các chương trình C/C++ cho Raspberry Pi.
+
+git clone --depth=1 https://github.com/raspberrypi/linux
+
+Clone source kernel của Raspberry Pi.
+
+Source kernel sẽ cung cấp kernel headers (các file .h) cho glibc và GCC build.
 
 ```Bash
 cd ~/Qt6Cross
@@ -71,6 +89,7 @@ cd gcc-10.3.0
 contrib/download_prerequisites
 ```
 
+
 Tạo folder cài đặt chứa trình biên dịch chéo
 
 ```Bash
@@ -79,7 +98,9 @@ sudo chown $USER /opt/cross-pi-gcc
 export PATH=/opt/cross-pi-gcc/bin:$PATH
 ```
 
-Gì đó
+GCC cần kernel headers để biết các interface của kernel (ví dụ các syscall, cấu trúc dữ liệu trong kernel) khi build glibc và các chương trình system-level.
+
+Sau bước này, thư mục /opt/cross-pi-gcc/aarch64-linux-gnu/include sẽ có đầy đủ header của kernel.
 
 ```Bash
 cd ~/Qt6Cross/gcc_all
@@ -88,7 +109,7 @@ KERNEL=kernel7
 make ARCH=arm64 INSTALL_HDR_PATH=/opt/cross-pi-gcc/aarch64-linux-gnu headers_install
 ```
 
-gì đó 
+build và cài đặt binutils cho cross-compiler,
 
 ```Bash
 cd ~/Qt6Cross/gcc_all
@@ -105,11 +126,16 @@ Thêm 3 đoạn khai báo sau vào ~/Qt6Cross/gcc_all/gcc-10.3.0/libsanitizer/as
 #define PATH_MAX 4096
 #endif
 
+
+Trên một số hệ thống (hoặc một số phiên bản glibc), PATH_MAX chưa được định nghĩa ở thời điểm GCC đọc file này.
+
+Nếu không định nghĩa, khi build GCC bạn sẽ gặp lỗi kiểu: "asan_linux.cpp: error: 'PATH_MAX' was not declared in this scope"
+
 ```Bash
 sed -i '1i#ifndef PATH_MAX\n#define PATH_MAX 4096\n#endif' ~/Qt6Cross/gcc_all/gcc-10.3.0/libsanitizer/asan/asan_linux.cpp
 ```
 
-gì đó
+build GCC cross-compiler chính
 
 ```Bash
 cd ~/Qt6Cross/gcc_all
@@ -119,7 +145,7 @@ make -j8 all-gcc
 make install-gcc
 ```
 
-gì đó
+build và cài đặt glibc cho cross-compiler, cung cấp thư viện runtime C chuẩn để compiler có thể tạo binary chạy trên Raspberry Pi.
 ```Bash
 cd ~/Qt6Cross/gcc_all
 mkdir build-glibc && cd build-glibc
@@ -131,20 +157,22 @@ aarch64-linux-gnu-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o /opt/cro
 touch /opt/cross-pi-gcc/aarch64-linux-gnu/include/gnu/stubs.h
 ```
 
-quay lại
+build thư viện runtime libgcc cho cross-compiler
+
 ```Bash
 cd ~/Qt6Cross/gcc_all/build-gcc
 make -j8 all-target-libgcc
 make install-target-libgcc
 ```
 
-Kết thúc
+build glibc đầy đủ cho cross-compiler.
 ```Bash
 cd ~/Qt6Cross/gcc_all/build-glibc
 make -j8
 make install
 ```
 
+build và cài đặt GCC hoàn chỉnh sau khi đã chuẩn bị glibc và libgcc
 ```Bash
 cd ~/Qt6Cross/gcc_all/build-gcc
 make -j8
