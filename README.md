@@ -62,27 +62,28 @@ cd CMake
 # Tải tool biên dịch chéo (sử dụng GCC)
 
 Tải binutils: bao gồm các tool như as (assembler), ld (linker), ar (archive tool)… Đây là các công cụ cơ bản cần cho quá trình biên dịch.
-```Bash
+##
 wget https://ftpmirror.gnu.org/binutils/binutils-2.35.2.tar.bz2
-```
+##
 
 Tải glibc: thư viện chuẩn C. Đây là thư viện runtime mà mọi chương trình C/C++ cần để chạy trên target.
-```Bash
+##
 wget https://ftpmirror.gnu.org/glibc/glibc-2.31.tar.bz2
-```
+##
 
 Tải GCC: bộ biên dịch chính, sẽ dùng để biên dịch các chương trình C/C++ cho Raspberry Pi.
-```Bash
+##
 wget https://ftpmirror.gnu.org/gcc/gcc-10.3.0/gcc-10.3.0.tar.gz
-```
+##
 
 Clone source kernel của Raspberry Pi.
-```Bash
-git clone --depth=1 https://github.com/raspberrypi/linux
-```
-
 Source kernel sẽ cung cấp kernel headers (các file .h) cho glibc và GCC build.
+##
+git clone --depth=1 https://github.com/raspberrypi/linux
+##
 
+
+Tất cả câu lệnh bên trên sẽ gộp trong đây
 ```Bash
 cd ~/Qt6Cross
 mkdir gcc_all && cd gcc_all
